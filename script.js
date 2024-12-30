@@ -1,55 +1,137 @@
-// baad ma
-let header = document.querySelector("header");
+const wrapper = document.querySelector(".sliderWrapper");
+const menuItems = document.querySelectorAll(".menuItem");
 
-window.addEventListener("scroll", () => {
-	header.classList.toggle("shadow", window.scrollY > 0);
+const products = [
+  {
+    id: 1,
+    title: "Air Force",
+    price: 119,
+    colors: [
+      {
+        code: "black",
+        img: "./img/air.png",
+      },
+      {
+        code: "darkblue",
+        img: "./img/air2.png",
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: "Air Jordan",
+    price: 149,
+    colors: [
+      {
+        code: "lightgray",
+        img: "./img/jordan.png",
+      },
+      {
+        code: "green",
+        img: "./img/jordan2.png",
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: "Blazer",
+    price: 109,
+    colors: [
+      {
+        code: "lightgray",
+        img: "./img/blazer.png",
+      },
+      {
+        code: "green",
+        img: "./img/blazer2.png",
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: "Crater",
+    price: 129,
+    colors: [
+      {
+        code: "black",
+        img: "./img/crater.png",
+      },
+      {
+        code: "lightgray",
+        img: "./img/crater2.png",
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: "Hippie",
+    price: 99,
+    colors: [
+      {
+        code: "gray",
+        img: "./img/hippie.png",
+      },
+      {
+        code: "black",
+        img: "./img/hippie2.png",
+      },
+    ],
+  },
+];
+
+let choosenProduct = products[0];
+
+const currentProductImg = document.querySelector(".productImg");
+const currentProductTitle = document.querySelector(".productTitle");
+const currentProductPrice = document.querySelector(".productPrice");
+const currentProductColors = document.querySelectorAll(".color");
+const currentProductSizes = document.querySelectorAll(".size");
+
+menuItems.forEach((item, index) => {
+  item.addEventListener("click", () => {
+    //change the current slide
+    wrapper.style.transform = `translateX(${-100 * index}vw)`;
+
+    //change the choosen product
+    choosenProduct = products[index];
+
+    //change texts of currentProduct
+    currentProductTitle.textContent = choosenProduct.title;
+    currentProductPrice.textContent = "$" + choosenProduct.price;
+    currentProductImg.src = choosenProduct.colors[0].img;
+
+    //assing new colors
+    currentProductColors.forEach((color, index) => {
+      color.style.backgroundColor = choosenProduct.colors[index].code;
+    });
+  });
 });
 
-// responsive
-let menu = document.querySelector("#menu-icon");
-let navbar = document.querySelector(".navbar");
-
-menu.onclick = () => {
-	menu.classList.toggle("bx-x");
-	navbar.classList.toggle("active");
-};
-window.onscroll = () => {
-	menu.classList.remove("bx-x");
-	navbar.classList.remove("active");
-};
-
-var swiper = new Swiper(".home", {
-	spaceBetween: 30,
-	centeredSlides: true,
-	autoplay: {
-		delay: 4000,
-		disableOnInteraction: false,
-	},
-	pagination: {
-		el: ".swiper-pagination",
-		clickable: true,
-	},
+currentProductColors.forEach((color, index) => {
+  color.addEventListener("click", () => {
+    currentProductImg.src = choosenProduct.colors[index].img;
+  });
 });
-var swiper = new Swiper(".coming-container", {
-	loop: true,
-	spaceBetween: 20,
-	centeredSlides: true,
-	autoplay: {
-		delay: 4000,
-		disableOnInteraction: false,
-	},
-	breakpoints: {
-		0: {
-			slidesPerView: 2,
-		},
-		568: {
-			slidesPerView: 3,
-		},
-		768: {
-			slidesPerView: 4,
-		},
-		968: {
-			slidesPerView: 5,
-		},
-	},
+
+currentProductSizes.forEach((size, index) => {
+  size.addEventListener("click", () => {
+    currentProductSizes.forEach((size) => {
+      size.style.backgroundColor = "white";
+      size.style.color = "black";
+    });
+    size.style.backgroundColor = "black";
+    size.style.color = "white";
+  });
+});
+
+const productButton = document.querySelector(".productButton");
+const payment = document.querySelector(".payment");
+const close = document.querySelector(".close");
+
+productButton.addEventListener("click", () => {
+  payment.style.display = "flex";
+});
+
+close.addEventListener("click", () => {
+  payment.style.display = "none";
 });
